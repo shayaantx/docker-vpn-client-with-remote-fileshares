@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+  openvpn-client:
+    image: yacht7/openvpn-client
+    cap_add:
+      - NET_ADMIN
+    ports:
+      # radarr port
+      - 7878:7878 
+    devices:
+      - /dev/net/tun
+    volumes:
+      - ${VPN_CONFIG}:/data/vpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - "SUBNETS=${SUBNETS}"
+      - TZ=${TZ}
+    restart: unless-stopped
+
+  file-share-client:
+    build:
+      context: .
+      args:
+        MOUNT_COMMAND: ${MOUNT_COMMAND}
+        MOUNT_TARGET: ${MOUNT_TARGET}
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    depends_on:
+      - openvpn-client
+    network_mode: service:openvpn-client
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${REMOTE_DOWNLOADS}:/downloads:rw,shared
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    depends_on:
+      - openvpn-client
+      - file-share-client
+    network_mode: service:openvpn-client
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {RADARR_CONFIG}:/config
+      - ${REMOTE_DOWNLOADS}:/downloads:rw,slave
+    restart: unless-stopped
+

@@ -148,6 +148,7 @@ Next lets go through each containers compose config and explain the most importa
 - If you want to allow this, add a volume mapping (like below) to the openvpn-client
 ```yaml
 volumes:
+  - ${VPN_CONFIG}:/data/vpn
   - <PATH_TO_VPN_UP_SCRIPT>/vpn-up.sh:/etc/openvpn/up.sh
 ```
 - This script you can get from the existing container (docker exec openvpn-client cat /etc/openvpn/up.sh), then add the below route line to the bottom of the script (replacing the variables below)

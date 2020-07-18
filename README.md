@@ -4,7 +4,7 @@ This is like any other normal docker-vpn client with the exception it allows you
 
 ## Why
 
-I found myself needing shares that were **NOT** available on my host machine, but available in my containers that shared a vpn connection with my other container (that started the vpn connection).
+I found myself needing remote file shares that were **NOT** available on my host machine, but available in my containers that shared a vpn connection with my other container (that started the vpn connection).
 
 ## Requirements
 
@@ -159,4 +159,4 @@ ip route add <SUBNET_IN_CIDR_NOTATION> via <DOCKER_GATEWAY_IP> dev eth0
 
 The vpn container I use in this setup is from https://github.com/yacht7/docker-openvpn-client which I kind of dissected and learned a lot from. 
 
-I also use radarr as a secondary container to show how to share the cifs share with another container.
+I also use radarr as a secondary container to show how to share the remote file share with another container.

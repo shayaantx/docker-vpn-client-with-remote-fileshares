@@ -1,6 +1,6 @@
 # Simple docker vpn client with remote file shares (host/container)
 
-This is like any other normal docker-vpn client with the exception it allows you mount a remote file share in the container, on the host, and in any other containers pretty easily.
+This is like any other normal docker-vpn client with the exception it allows you mount a remote file share in the container, then to the host, and in any other containers pretty easily.
 
 ## Why
 

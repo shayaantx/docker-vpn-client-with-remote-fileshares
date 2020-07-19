@@ -21,7 +21,7 @@ services:
 
   file-share-client:
     build:
-      context: .
+      context: ./
       args:
         MOUNT_COMMAND: ${MOUNT_COMMAND}
         MOUNT_TARGET: ${MOUNT_TARGET}
@@ -52,7 +52,7 @@ services:
     network_mode: service:openvpn-client
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - {RADARR_CONFIG}:/config
+      - ${RADARR_CONFIG}:/config
       - ${REMOTE_DOWNLOADS}:/downloads:rw,slave
     restart: unless-stopped
 

@@ -1,8 +1,7 @@
 #!/bin/bash
 
 cleanup() {
-  echo "unmounting $2"
-  umount $2
+  umount "${MOUNT_TARGET}"
 }
 
 #Trap all different quit signals
@@ -28,8 +27,10 @@ done
 
 
 if [[ $( ifconfig -s | grep tun ) ]]; then
-  echo "running command $1"
-  $1
+  echo "running mount command"
+  # Turn on to debug mount issues
+  # echo "${MOUNT_COMMAND}"
+  eval "${MOUNT_COMMAND}"
   tail -f /dev/null &
   wait $!
 else
